@@ -180,7 +180,6 @@ CSteam3Server *Steam3Server()
 SH_DECL_MANUALHOOK3(MHook_BeginAuthSession, 0, 0, 0, EBeginAuthSessionResult, const void *, int, CSteamID);
 EBeginAuthSessionResult Hook_BeginAuthSession(const void *pAuthTicket, int cbAuthTicket, CSteamID steamID)
 {
-	g_pSM->LogMessage(myself, "Hook_BeginAuthSession (suppress = %d)", g_bSuppressBeginAuthSession);
 	if (!g_bSuppressBeginAuthSession)
 	{
 		RETURN_META_VALUE(MRES_IGNORED, k_EBeginAuthSessionResultOK);
@@ -192,11 +191,10 @@ EBeginAuthSessionResult Hook_BeginAuthSession(const void *pAuthTicket, int cbAut
 	&& g_lastcbAuthTicket == cbAuthTicket)
 	{
 		// Let the server know everything is fine
-		g_pSM->LogMessage(myself, "Hook_BeginAuthSession: returning k_EBeginAuthSessionResultOK");
+		// g_pSM->LogMessage(myself, "You alright ;)");
 		RETURN_META_VALUE(MRES_SUPERCEDE, k_EBeginAuthSessionResultOK);
 	}
 
-	g_pSM->LogMessage(myself, "Hook_BeginAuthSession: returning k_EBeginAuthSessionResultDuplicateRequest");
 	RETURN_META_VALUE(MRES_IGNORED, k_EBeginAuthSessionResultDuplicateRequest);
 }
 
@@ -204,7 +202,6 @@ DETOUR_DECL_MEMBER9(CBaseServer__ConnectClient, IClient*, netadr_t&, address, in
 {
 	if (nAuthProtocol != k_EAuthProtocolSteam)
 	{
-		META_CONPRINTF("likely sourcetv client\n");
 		// This is likely a SourceTV client, we don't want to interfere here.
 		return DETOUR_MEMBER_CALL(CBaseServer__ConnectClient)(address, nProtocol, iChallenge, iClientChallenge, nAuthProtocol, pchName, pchPassword, pCookie, cbCookie);
 	}
@@ -308,10 +305,10 @@ bool Connect::SDK_OnLoad(char *error, size_t maxlen, bool late)
 		return false;
 	}
 
-	META_CONPRINTF("CheckMasterServerRequestRestart: %p\n", address);
+	//META_CONPRINTF("CheckMasterServerRequestRestart: %p\n", address);
 	address = (void *)((intptr_t)address + steam3ServerFuncOffset);
 	g_pSteam3ServerFunc = (Steam3ServerFunc)((intptr_t)address + *((int32_t *)address) + sizeof(int32_t));
-	META_CONPRINTF("Steam3Server: %p\n", g_pSteam3ServerFunc);
+	//META_CONPRINTF("Steam3Server: %p\n", g_pSteam3ServerFunc);
 #endif
 
 	g_pSteam3Server = Steam3Server();
@@ -327,10 +324,12 @@ bool Connect::SDK_OnLoad(char *error, size_t maxlen, bool late)
 		return false;
 	}
 
+	/*
 	META_CONPRINTF("ISteamGameServer: %p\n", g_pSteam3Server->m_pSteamGameServer);
 	META_CONPRINTF("ISteamUtils: %p\n", g_pSteam3Server->m_pSteamGameServerUtils);
 	META_CONPRINTF("ISteamNetworking: %p\n", g_pSteam3Server->m_pSteamGameServerNetworking);
 	META_CONPRINTF("ISteamGameServerStats: %p\n", g_pSteam3Server->m_pSteamGameServerStats);
+	*/
 	void** vtable = *((void***)g_pSteam3Server->m_pSteamGameServer);
 
 	int offset = 0;
