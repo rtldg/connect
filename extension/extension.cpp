@@ -204,6 +204,7 @@ DETOUR_DECL_MEMBER9(CBaseServer__ConnectClient, IClient*, netadr_t&, address, in
 {
 	if (nAuthProtocol != k_EAuthProtocolSteam)
 	{
+		META_CONPRINTF("likely sourcetv client\n");
 		// This is likely a SourceTV client, we don't want to interfere here.
 		return DETOUR_MEMBER_CALL(CBaseServer__ConnectClient)(address, nProtocol, iChallenge, iClientChallenge, nAuthProtocol, pchName, pchPassword, pCookie, cbCookie);
 	}
@@ -328,7 +329,6 @@ bool Connect::SDK_OnLoad(char *error, size_t maxlen, bool late)
 
 	META_CONPRINTF("ISteamGameServer: %p\n", g_pSteam3Server->m_pSteamGameServer);
 	META_CONPRINTF("ISteamUtils: %p\n", g_pSteam3Server->m_pSteamGameServerUtils);
-	META_CONPRINTF("ISteamMasterServerUpdater: %p\n", g_pSteam3Server->m_pSteamMasterServerUpdater);
 	META_CONPRINTF("ISteamNetworking: %p\n", g_pSteam3Server->m_pSteamGameServerNetworking);
 	META_CONPRINTF("ISteamGameServerStats: %p\n", g_pSteam3Server->m_pSteamGameServerStats);
 	void** vtable = *((void***)g_pSteam3Server->m_pSteamGameServer);
