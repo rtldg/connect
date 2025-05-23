@@ -307,10 +307,10 @@ bool Connect::SDK_OnLoad(char *error, size_t maxlen, bool late)
 		return false;
 	}
 
-	//META_CONPRINTF("CheckMasterServerRequestRestart: %p\n", address);
+	META_CONPRINTF("CheckMasterServerRequestRestart: %p\n", address);
 	address = (void *)((intptr_t)address + steam3ServerFuncOffset);
 	g_pSteam3ServerFunc = (Steam3ServerFunc)((intptr_t)address + *((int32_t *)address) + sizeof(int32_t));
-	//META_CONPRINTF("Steam3Server: %p\n", g_pSteam3ServerFunc);
+	META_CONPRINTF("Steam3Server: %p\n", g_pSteam3ServerFunc);
 #endif
 
 	g_pSteam3Server = Steam3Server();
@@ -326,13 +326,11 @@ bool Connect::SDK_OnLoad(char *error, size_t maxlen, bool late)
 		return false;
 	}
 
-	/*
 	META_CONPRINTF("ISteamGameServer: %p\n", g_pSteam3Server->m_pSteamGameServer);
 	META_CONPRINTF("ISteamUtils: %p\n", g_pSteam3Server->m_pSteamGameServerUtils);
 	META_CONPRINTF("ISteamMasterServerUpdater: %p\n", g_pSteam3Server->m_pSteamMasterServerUpdater);
 	META_CONPRINTF("ISteamNetworking: %p\n", g_pSteam3Server->m_pSteamGameServerNetworking);
 	META_CONPRINTF("ISteamGameServerStats: %p\n", g_pSteam3Server->m_pSteamGameServerStats);
-	*/
 	void** vtable = *((void***)g_pSteam3Server->m_pSteamGameServer);
 
 	int offset = 0;
