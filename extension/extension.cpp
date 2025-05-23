@@ -180,6 +180,7 @@ CSteam3Server *Steam3Server()
 SH_DECL_MANUALHOOK3(MHook_BeginAuthSession, 0, 0, 0, EBeginAuthSessionResult, const void *, int, CSteamID);
 EBeginAuthSessionResult Hook_BeginAuthSession(const void *pAuthTicket, int cbAuthTicket, CSteamID steamID)
 {
+	g_pSM->LogMessage(myself, "Hook_BeginAuthSession (suppress = %d)", g_bSuppressBeginAuthSession);
 	if (!g_bSuppressBeginAuthSession)
 	{
 		RETURN_META_VALUE(MRES_IGNORED, k_EBeginAuthSessionResultOK);
@@ -191,10 +192,11 @@ EBeginAuthSessionResult Hook_BeginAuthSession(const void *pAuthTicket, int cbAut
 	&& g_lastcbAuthTicket == cbAuthTicket)
 	{
 		// Let the server know everything is fine
-		// g_pSM->LogMessage(myself, "You alright ;)");
+		g_pSM->LogMessage(myself, "Hook_BeginAuthSession: returning k_EBeginAuthSessionResultOK");
 		RETURN_META_VALUE(MRES_SUPERCEDE, k_EBeginAuthSessionResultOK);
 	}
 
+	g_pSM->LogMessage(myself, "Hook_BeginAuthSession: returning k_EBeginAuthSessionResultDuplicateRequest");
 	RETURN_META_VALUE(MRES_IGNORED, k_EBeginAuthSessionResultDuplicateRequest);
 }
 
