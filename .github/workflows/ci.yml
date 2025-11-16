@@ -132,7 +132,7 @@ jobs:
             -e CXX=${{ matrix.cxx }} \
             --mount type=bind,source=${{ env.CACHE_PATH }},target=${{ env.CACHE_PATH }} \
             --mount type=bind,source=$PWD,target=$PWD \
-            -it "registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest" \
+            "registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest" \
             "$PWD/build.sh"
 
           PLATFORM="${{ runner.os }}"
