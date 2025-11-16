@@ -1,12 +1,13 @@
 #!/bin/bash
 
+apt install python3-pip
+
 cd "$(dirname $0)"
 
 $CC --version
 $CXX --version
 
-pushd
-cd "$CACHE_PATH"
+pushd "$CACHE_PATH"
 python -m pip install ./ambuild
 popd
 

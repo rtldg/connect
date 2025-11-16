@@ -121,9 +121,9 @@ jobs:
         shell: bash
         working-directory: extension
         run: |
-          podman run \
-            --env-host \
-            --userns=keep-id \
+          env > env.txt
+          docker run \
+            --env-file env.txt \
             --mount type=bind,source=${{ env.CACHE_PATH }},target=${{ env.CACHE_PATH }} \
             --mount type=bind,source=$PWD,target=$PWD \
             -it "registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest" \
