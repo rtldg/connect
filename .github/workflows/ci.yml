@@ -47,6 +47,12 @@ jobs:
             gcc-multilib g++-multilib libstdc++6 lib32stdc++6 \
             libc6-dev libc6-dev-i386 linux-libc-dev \
             linux-libc-dev:i386 lib32z1-dev ${{ matrix.cc }}
+
+      - name: Setup Zig
+        if: startsWith(runner.os, 'Linux')
+        uses: mlugg/setup-zig@v1
+        with:
+          version: '0.13.0' ### decently compatible and non-buggy C++ compiling version....
     
       - uses: actions/setup-python@v6
         name: Setup Python 3.9
@@ -114,8 +120,8 @@ jobs:
       - name: Select clang compiler
         if: startsWith(runner.os, 'Linux')
         run: |
-          echo "CC=${{ matrix.cc }}" >> $GITHUB_ENV
-          echo "CXX=${{ matrix.cxx }}" >> $GITHUB_ENV
+          echo "CC=\"zcc -target i386-linux-gnu.2.29\"" >> $GITHUB_ENV
+          echo "CXX=\"zxx -target i386-linux-gnu.2.29\"" >> $GITHUB_ENV
           ${{ matrix.cc }} --version
           ${{ matrix.cxx }} --version
 
