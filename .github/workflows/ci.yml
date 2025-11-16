@@ -11,9 +11,9 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-22.04, windows-2022]
+        os: [ubuntu-latest, windows-2022]
         include:
-          - os: ubuntu-22.04
+          - os: ubuntu-latest
             cc: clang-11
             cxx: clang++-11
           - os: windows-2022
@@ -124,9 +124,9 @@ jobs:
           podman run \
             --env-host \
             --userns=keep-id \
-            --mount type=bind,\"source="${{ env.CACHE_PATH }}"\",\"target="${{ env.CACHE_PATH }}"\" \
-            --mount type=bind,\"source="$PWD"\",target=$PWD \
-            -rm -it "registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest" \
+            --mount type=bind,source=${{ env.CACHE_PATH }},target=${{ env.CACHE_PATH }} \
+            --mount type=bind,source=$PWD,target=$PWD \
+            -it "registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest" \
             "$PWD/build.sh"
 
           PLATFORM="${{ runner.os }}"
