@@ -121,9 +121,15 @@ jobs:
         shell: bash
         working-directory: extension
         run: |
-          env > env.txt
           docker run \
-            --env-file env.txt \
+            -e PROJECT=${{ env.PROJECT }} \
+            -e SDKS=${{ env.SDKS }} \
+            -e MMSOURCE_VERSION=${{ env.MMSOURCE_VERSION }} \
+            -e SOURCEMOD_VERSION=${{ env.MMSOURCE_SOURCEMOD_VERSION }} \
+            -e CACHE_PATH=${{ env.CACHE_PATH }} \
+            -e SDKS_KEY=${{ env.SDKS_KEY }} \
+            -e CC=${{ matrix.cc }} \
+            -e CXX=${{ matrix.cxx }} \
             --mount type=bind,source=${{ env.CACHE_PATH }},target=${{ env.CACHE_PATH }} \
             --mount type=bind,source=$PWD,target=$PWD \
             -it "registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest" \
