@@ -123,8 +123,8 @@ jobs:
           echo "#!/bin/bash\nzcc -target i386-linux-gnu.2.29 $@" >> zcc.sh
           echo "#!/bin/bash\nzxx -target i386-linux-gnu.2.29 $@" >> zxx.sh
           chmod +x zcc.sh zxx.sh
-          echo "CC="$PWD/zcc.sh" >> $GITHUB_ENV
-          echo "CXX="$PWD/zxx.sh" >> $GITHUB_ENV
+          echo "CC=$PWD/zcc.sh" >> $GITHUB_ENV
+          echo "CXX=$PWD/zxx.sh" >> $GITHUB_ENV
           ${{ matrix.cc }} --version
           ${{ matrix.cxx }} --version
 
