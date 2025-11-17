@@ -136,7 +136,7 @@ jobs:
             "$PWD/build.sh"
 
           PLATFORM="${{ runner.os }}"
-          FILENAME="$(cat ./includes/filename_versioning.txt)"
+          FILENAME="$(cat build/includes/filename_versioning.txt)"
           ZIP_FILENAME="${{ env.PROJECT }}-${FILENAME}-${PLATFORM,}.zip"
 
           echo "ZIP_FILENAME=${ZIP_FILENAME}" >> $GITHUB_ENV
