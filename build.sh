@@ -7,6 +7,8 @@ cd "$(dirname $0)"
 $CC --version
 $CXX --version
 
+git config --global --add safe.directory $PWD
+
 pushd "$CACHE_PATH"
 python -m pip install ./ambuild
 popd
