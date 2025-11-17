@@ -116,7 +116,7 @@ jobs:
         run: |
           docker run \
             -e PROJECT=${{ env.PROJECT }} \
-            -e "SDKS=\"${{ env.SDKS }}\"" \
+            -e SDKS="${{ env.SDKS }}" \
             -e MMSOURCE_VERSION=${{ env.MMSOURCE_VERSION }} \
             -e SOURCEMOD_VERSION=${{ env.MMSOURCE_SOURCEMOD_VERSION }} \
             -e CACHE_PATH=${{ env.CACHE_PATH }} \
