@@ -128,6 +128,8 @@ jobs:
             "registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest" \
             "$PWD/build.sh"
 
+          sudo chown -R $USER .
+
           PLATFORM="${{ runner.os }}"
           FILENAME="$(cat build/includes/filename_versioning.txt)"
           ZIP_FILENAME="${{ env.PROJECT }}-${FILENAME}-${PLATFORM,}.zip"
