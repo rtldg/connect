@@ -37,13 +37,6 @@ jobs:
           SDKS_VAR="${{env.SDKS}}"
           # This will be used in our cache key
           echo "SDKS_KEY=${SDKS_VAR//[[:blank:]]/}" >> $GITHUB_ENV
-
-      - name: Linux dependencies
-        if: startsWith(runner.os, 'Linux')
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            podman
     
       - uses: actions/setup-python@v6
         if: startsWith(matrix.os, 'windows-')
