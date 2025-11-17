@@ -18,4 +18,4 @@ cd build
 python ../configure.py --enable-auto-versioning --enable-optimize --sdks="$SDKS" --mms-path="$CACHE_PATH/metamod-source" --hl2sdk-root="$CACHE_PATH" --sm-path="$CACHE_PATH/sourcemod"
 ambuild
 
-chmod -R 1000:1000 build
+chown -R 1000:1000 build
