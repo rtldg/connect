@@ -40,9 +40,9 @@ jobs:
     
       - uses: actions/setup-python@v6
         if: startsWith(matrix.os, 'windows-')
-        name: Setup Python 3.9
+        name: Setup Python 3.12
         with:
-          python-version: 3.9
+          python-version: 3.12
       
       - name: Install Python dependencies
         if: startsWith(matrix.os, 'windows-')
@@ -104,16 +104,13 @@ jobs:
           cd "${{ env.CACHE_PATH }}"
           python -m pip install ./ambuild
 
-      - name: Select clang compiler
-        if: startsWith(runner.os, 'Linux')
-        run: |
-          echo "CC=${{ matrix.cc }}" >> $GITHUB_ENV
-          echo "CXX=${{ matrix.cxx }}" >> $GITHUB_ENV
-
       - name: Build
         shell: bash
         working-directory: extension
         run: |
+          # docker instead of podman because:
+          # - we don't need a job to `sudo apt install podman`
+          # - `sudo apt install -y python3-pip` didn't work inside podman for me?
           docker run \
             -e PROJECT=${{ env.PROJECT }} \
             -e SDKS="${{ env.SDKS }}" \
@@ -128,6 +125,7 @@ jobs:
             "registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest" \
             "$PWD/build.sh"
 
+          # need to fix the owner because docker root-ed stuff?
           sudo chown -R $USER .
 
           PLATFORM="${{ runner.os }}"
